@@ -1,0 +1,14 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "outDir": "build",
+    "target": "es2017",
+    "declaration": false
+  },
+  "include": ["src/**/*.ts"]
+}

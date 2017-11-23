@@ -1,0 +1,18 @@
+{
+  "name": "@robotmayo/result-option",
+  "version": "0.1.0",
+  "description": "Rust Result and Option traits in Typescript",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "ava",
+    "build": "tsc",
+    "build:watch": "tsc -w"
+  },
+  "keywords": ["result", "option", "some", "none", "rust", "rustlang", "typed"],
+  "author": "robotmayo",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.23.0",
+    "typescript": "^2.6.1"
+  }
+}
