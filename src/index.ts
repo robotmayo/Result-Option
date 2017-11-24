@@ -1,3 +1,4 @@
+import Coderr from "@robotmayo/coderr";
 export interface Option<T> {
   isSome(): boolean;
   isNone(): boolean;
@@ -56,6 +57,14 @@ export class Some<T> implements Option<T> {
   }
 }
 
+export enum ERR_CODE {
+  ERR_NONE_NO_MAP = "ERR_NONE_NO_MAP",
+  ERR_NONE_NO_UNWRAP = "ERR_NONE_NO_UNWRAP",
+  ERR_OK_NO_UNWRAP_ERR = "ERR_OK_NO_UNWRAP_ERR",
+  ERR_NO_EXPECT_ERR_OK = "ERR_NO_EXPECT_ERR_OK",
+  ERR_NO_ERR_EXPECT = "ERR_NO_ERR_EXPECT"
+}
+
 export class None<T> implements Option<T> {
   public static None: Option<any> = new None();
   public static Make<P>(): Option<P> {
@@ -69,7 +78,7 @@ export class None<T> implements Option<T> {
     return true;
   }
   unwrap(): T {
-    throw new Error("A None cannot be unwrapped");
+    throw new Coderr("A None cannot be unwrapped", ERR_CODE.ERR_NONE_NO_UNWRAP);
   }
   unwrapOr(d: T) {
     return d;
@@ -78,7 +87,7 @@ export class None<T> implements Option<T> {
     return fn();
   }
   map<U>(fn: (i: T) => U): Option<U> {
-    throw new Error("A None cannot be mapped");
+    throw new Coderr("A None cannot be mapped", ERR_CODE.ERR_NONE_NO_MAP);
   }
   mapOr<U>(d: U, fn: (i: T) => U): U {
     return d;
@@ -167,10 +176,13 @@ export class Ok<T, E> implements Result<T, E> {
     return this.val;
   }
   unwrapErr(): E {
-    throw new Error("Cannot unwrap an Ok " + this.val.toString());
+    throw new Coderr(
+      "Cannot unwrap an Ok " + this.val.toString(),
+      ERR_CODE.ERR_OK_NO_UNWRAP_ERR
+    );
   }
   expectErr(msg: string): E {
-    throw new Error(msg + " " + this.val);
+    throw new Coderr(msg + " " + this.val, ERR_CODE.ERR_NO_EXPECT_ERR_OK);
   }
 }
 
@@ -219,7 +231,7 @@ export class Err<T, E> implements Result<T, E> {
     throw this.val;
   }
   expect(msg: string): T {
-    throw new Error(msg + this.val);
+    throw new Coderr(msg + this.val, ERR_CODE.ERR_NO_ERR_EXPECT);
   }
   unwrapErr(): E {
     return this.val;

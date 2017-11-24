@@ -8,11 +8,22 @@
     "build": "tsc",
     "build:watch": "tsc -w"
   },
-  "keywords": ["result", "option", "some", "none", "rust", "rustlang", "typed"],
+  "keywords": [
+    "result",
+    "option",
+    "some",
+    "none",
+    "rust",
+    "rustlang",
+    "typed"
+  ],
   "author": "robotmayo",
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.23.0",
     "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "@robotmayo/coderr": "^1.0.0"
   }
 }
