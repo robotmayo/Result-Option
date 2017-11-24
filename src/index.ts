@@ -1,4 +1,4 @@
-import Coderr from "@robotmayo/coderr";
+import Coderr, { wrap } from "@robotmayo/coderr";
 export interface Option<T> {
   isSome(): boolean;
   isNone(): boolean;
@@ -55,6 +55,9 @@ export class Some<T> implements Option<T> {
   orElse(fn: () => Option<T>): Option<T> {
     return this;
   }
+  toString() {
+    return "Some " + this.val;
+  }
 }
 
 export enum ERR_CODE {
@@ -106,6 +109,10 @@ export class None<T> implements Option<T> {
   }
   orElse(fn: () => Option<T>): Option<T> {
     return fn();
+  }
+
+  toString() {
+    return "None";
   }
 }
 
@@ -184,6 +191,9 @@ export class Ok<T, E> implements Result<T, E> {
   expectErr(msg: string): E {
     throw new Coderr(msg + " " + this.val, ERR_CODE.ERR_NO_EXPECT_ERR_OK);
   }
+  toString() {
+    return "Ok " + this.val;
+  }
 }
 
 export class Err<T, E> implements Result<T, E> {
@@ -231,7 +241,14 @@ export class Err<T, E> implements Result<T, E> {
     throw this.val;
   }
   expect(msg: string): T {
-    throw new Coderr(msg + this.val, ERR_CODE.ERR_NO_ERR_EXPECT);
+    if (this.val instanceof Error) {
+      // Never mutate the original value
+      //https://stackoverflow.com/questions/41474986/how-to-clone-a-javascript-es6-class-instance
+      const clone = cloneError(this.val);
+      clone.message = msg + " " + this.val.message;
+      throw wrap(clone, ERR_CODE.ERR_NO_ERR_EXPECT);
+    }
+    throw new Coderr(msg + " " + this.val, ERR_CODE.ERR_NO_ERR_EXPECT);
   }
   unwrapErr(): E {
     return this.val;
@@ -239,4 +256,11 @@ export class Err<T, E> implements Result<T, E> {
   expectErr(msg: string): E {
     return this.val;
   }
+  toString() {
+    return "Err " + this.val;
+  }
+}
+
+export function cloneError(e: Error): Error {
+  return Object.assign(Object.create(Object.getPrototypeOf(e)), e);
 }
