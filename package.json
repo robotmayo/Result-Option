@@ -1,23 +1,19 @@
 {
   "name": "@robotmayo/result-option",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Rust Result and Option traits in Typescript",
   "main": "build/index.js",
+  "files": ["build/index.js", "build/index.d.ts"],
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "ava",
     "build": "tsc",
     "build:watch": "tsc -w",
-    "test:watch": "ava -w"
+    "test:watch": "ava -w",
+    "build:prod": "tsc -p tsconfig.production.json",
+    "prepublish": "npm run build:prod && npm run test"
   },
-  "keywords": [
-    "result",
-    "option",
-    "some",
-    "none",
-    "rust",
-    "rustlang",
-    "typed"
-  ],
+  "keywords": ["result", "option", "some", "none", "rust", "rustlang", "typed"],
   "author": "robotmayo",
   "license": "MIT",
   "devDependencies": {
