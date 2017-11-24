@@ -1,4 +1,4 @@
-import Coderr, { wrap } from "@robotmayo/coderr";
+import Coderr, { wrap, cloneError } from "@robotmayo/coderr";
 export interface Option<T> {
   isSome(): boolean;
   isNone(): boolean;
@@ -259,8 +259,4 @@ export class Err<T, E> implements Result<T, E> {
   toString() {
     return "Err " + this.val;
   }
-}
-
-export function cloneError(e: Error): Error {
-  return Object.assign(Object.create(Object.getPrototypeOf(e)), e);
 }

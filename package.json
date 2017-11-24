@@ -25,6 +25,6 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "@robotmayo/coderr": "^1.0.2"
+    "@robotmayo/coderr": "^1.2.0"
   }
 }
